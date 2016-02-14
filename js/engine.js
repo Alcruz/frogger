@@ -166,7 +166,7 @@ var Engine = (function(global) {
     
     function checkCollisions() {
         allEnemies.forEach(function (e, i) {
-            var hasCollide = Math.abs(player.x - e.x) <= 80
+            var hasCollide = Math.abs(player.x - e.x) <= 50
                              && Math.abs(player.y - e.y) <= 50
            if ( hasCollide ) {
               player = new Player();
