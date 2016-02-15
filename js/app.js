@@ -74,6 +74,22 @@ Player.prototype.moveDown = function () {
 Player.prototype.update = function () {  
 };
 
+var Gem = function () {
+    var x = randomInt(0, 5);
+    var y = randomInt(1, 3);
+    
+    var gemValues = [5, 10, 20]
+    var gemSprites = ['images/Gem-Blue-small.png', 'images/Gem-Green-small.png', 'images/Gem-Orange-small.png'];
+    
+    var gemType = randomInt(0,3);
+    
+    this.gemValue = gemValues[gemType];
+    GameObject.call(this, gemSprites[gemType], x, y);
+}
+
+Gem.prototype = Object.create(GameObject.prototype);
+Gem.prototype.constructor = Gem;
+
 Player.prototype.handleInput = function (key) {
     switch (key) {
         case 'left': 
@@ -100,6 +116,7 @@ var randomInt = function (min, max) {
 };
 
 var allEnemies = [new Enemy(), new Enemy(), new Enemy()];
+var gems = [new Gem(), new Gem(), new Gem()];
 var player = new Player();
 
 document.addEventListener('keyup', function(e) {
