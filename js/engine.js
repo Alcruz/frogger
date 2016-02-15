@@ -149,6 +149,10 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
+        gems.forEach(function (gem){
+            gem.render();
+        });
+
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
@@ -165,10 +169,20 @@ var Engine = (function(global) {
     }
     
     function checkCollisions() {
-        allEnemies.forEach(function (e, i) {
+        gems.forEach(function (gem, i){
+            var hasCollide = Math.abs(player.x - gem.x) <= 10
+                             && Math.abs(player.y - gem.y) <= 10;          
+                             
+            if (hasCollide) {
+                player.grab(gem);
+                gems.splice(i, 1);
+            }
+        });
+        
+        allEnemies.forEach(function (e) {
             var hasCollide = Math.abs(player.x - e.x) <= 50
                              && Math.abs(player.y - e.y) <= 50
-           if ( hasCollide ) {
+           if (hasCollide) {
               player = new Player();
            } 
         });
@@ -183,7 +197,10 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/Gem-Blue-small.png',
+        'images/Gem-Green-small.png',
+        'images/Gem-Orange-small.png'
     ]);
     Resources.onReady(init);
 
