@@ -174,7 +174,7 @@ var Engine = (function(global) {
                              && Math.abs(player.y - gem.y) <= 10;          
                              
             if (hasCollide) {
-                player.grab(gem);
+                // player.grab(gem);
                 gems.splice(i, 1);
             }
         });
