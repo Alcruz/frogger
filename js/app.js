@@ -1,3 +1,34 @@
+
+var Board = function (x,y) {
+    this.x = x;
+    this.y = y;  
+};
+
+Board.prototype.render = function () {
+    ctx.font = "48px heveltica";
+    ctx.fillText(this.getText(), this.x, this.y);
+};
+
+var ScoreBoard = function (x, y) {
+    Board.call(this, x, y);
+    this.points = 0;
+};
+
+ScoreBoard.prototype = Object.create(Board.prototype);
+ScoreBoard.prototype.getText = function () {
+    return "Score: " + this.points;
+};
+
+var LifeBoard = function (x, y) {
+    Board.call(this, x, y);
+    this.lifes = 3;
+};
+
+LifeBoard.prototype = Object.create(Board.prototype);
+LifeBoard.prototype.getText = function () {
+    return "Lifes: " + this.lifes;  
+};
+
 var GameObject = function (sprite, x, y) {
     this.sprite = sprite;
     this.setXTile(x);
@@ -27,6 +58,7 @@ Enemy.prototype.constructor = Enemy;
 
 Enemy.prototype.update = function(dt) {
     this.x += 101*dt*this.v;
+    // if the bug get out of the board, reset position and velocity
     if (this.x >= 550) {
         this.v = random(1,4);
         this.setXTile(-1);
@@ -96,11 +128,13 @@ var Gem = function () {
     var y = randomInt(1, 3);
     
     var gemValues = [5, 10, 20]
-    var gemSprites = ['images/Gem-Blue-small.png', 'images/Gem-Green-small.png', 'images/Gem-Orange-small.png'];
+    var gemSprites = ['images/Gem-Blue-small.png', 
+                      'images/Gem-Green-small.png', 
+                      'images/Gem-Orange-small.png'];
     
     var gemType = randomInt(0,3);
     
-    this.gemValue = gemValues[gemType];
+    this.value = gemValues[gemType];
     GameObject.call(this, gemSprites[gemType], x, y);
 }
 
@@ -118,9 +152,8 @@ var randomInt = function (min, max) {
 var allEnemies = [new Enemy(), new Enemy(), new Enemy()];
 var gems = [new Gem(), new Gem(), new Gem()];
 var player = new Player();
-
-
-
+var scoreBoard = new ScoreBoard(0, 40);
+var lifeBoard = new LifeBoard(300, 40)
 
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {

@@ -28,8 +28,7 @@ var Engine = (function(global) {
     canvas.width = 505;
     canvas.height = 606;
     doc.body.appendChild(canvas);
-
-
+    
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
      */
@@ -105,6 +104,8 @@ var Engine = (function(global) {
      * they are just drawing the entire screen over and over.
      */
     function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
@@ -149,6 +150,10 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
+        scoreBoard.render();
+        
+        lifeBoard.render();
+        
         gems.forEach(function (gem){
             gem.render();
         });
@@ -170,20 +175,21 @@ var Engine = (function(global) {
     
     function checkCollisions() {
         gems.forEach(function (gem, i){
-            var hasCollide = Math.abs(player.x - gem.x) <= 10
+            var hasCollided = Math.abs(player.x - gem.x) <= 10
                              && Math.abs(player.y - gem.y) <= 10;          
                              
-            if (hasCollide) {
-                // player.grab(gem);
+            if (hasCollided) {
+                scoreBoard.points += gem.value;
                 gems.splice(i, 1);
             }
         });
         
         allEnemies.forEach(function (e) {
-            var hasCollide = Math.abs(player.x - e.x) <= 50
+            var hasCollided = Math.abs(player.x - e.x) <= 50
                              && Math.abs(player.y - e.y) <= 50
-           if (hasCollide) {
+           if (hasCollided) {
               player = new Player();
+              lifeBoard.lifes--;
            } 
         });
     }
