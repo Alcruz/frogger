@@ -150,19 +150,31 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        scoreBoard.render();
-        
-        lifeBoard.render();
-        
-        gems.forEach(function (gem){
-            gem.render();
-        });
+        if (lifeBoard.lifes > 0) {
+            scoreBoard.render();
+            lifeBoard.render();
+            
+            if (player.tileY === 0) {
+                var x = randomInt(0,5);
+                player.tileY = 5;
+                player.tileX = x;
+                player.setYTile(5);
+                player.setXTile(x);
+                gems = [new Gem(), new Gem(), new Gem()];
+            }
+            
+            gems.forEach(function (gem){
+                gem.render();
+            });
 
-        allEnemies.forEach(function(enemy) {
-            enemy.render();
-        });
+            allEnemies.forEach(function(enemy) {
+                enemy.render();
+            });
 
-        player.render();
+            player.render();
+        } else {
+            gameOver.render();
+        }
     }
 
     /* This function does nothing but it could have been a good place to

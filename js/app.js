@@ -103,9 +103,6 @@ Player.prototype.moveDown = function () {
     }
 }
 
-Player.prototype.update = function () {  
-};
-
 Player.prototype.handleInput = function (key) {
     switch (key) {
         case 'left': 
@@ -121,6 +118,10 @@ Player.prototype.handleInput = function (key) {
             this.moveDown();
             break;
     }
+};
+
+Player.prototype.update = function () {
+    
 };
 
 var Gem = function () {
@@ -150,10 +151,15 @@ var randomInt = function (min, max) {
 };
 
 var allEnemies = [new Enemy(), new Enemy(), new Enemy()];
-var gems = [new Gem(), new Gem(), new Gem()];
 var player = new Player();
 var scoreBoard = new ScoreBoard(0, 40);
 var lifeBoard = new LifeBoard(300, 40)
+var gems = [new Gem(), new Gem(), new Gem()];
+
+var gameOver = new Board(74, 40);
+gameOver.getText = function () {
+    return "Game Over";  
+};
 
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
